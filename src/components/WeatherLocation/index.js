@@ -51,7 +51,6 @@ class WeatherLocation extends Component {
       }).then( data => {
         const newWeather = this.getData(data)
         console.log(newWeather)
-        debugger
         this.setState({
           data: newWeather
         })
