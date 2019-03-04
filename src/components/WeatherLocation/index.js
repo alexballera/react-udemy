@@ -8,7 +8,7 @@ const location = 'Buenos Aires, ar'
 const api_key = '80eaa40f53c218c10a6658c3e3c198f3'
 const url = 'http://api.openweathermap.org/data/2.5/weather'
 
-const api_weather = `${url}?q=${location}&appid=${api_key}`
+const api_weather = `${url}?q=${location}&appid=${api_key}&units=metric`
 
 const data = {
   temperature: 20,
@@ -46,7 +46,8 @@ class WeatherLocation extends Component {
   }
 
   handleUpdateClick = () => {
-    fetch(api_weather).then( resolve => {
+    fetch(api_weather)
+      .then( resolve => {
         return resolve.json()
       }).then( data => {
         const newWeather = this.getData(data)
