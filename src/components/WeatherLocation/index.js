@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
 import Location from './Location'
 import WeatherData from './WeatherData'
-import './styles.css'
+import transformWeather from '../../services/transformWeather'
+import { apiWeather } from '../../constants/api_url'
 import { SUN } from '../../constants/weathers'
-
-const location = 'Buenos Aires, ar'
-const api_key = '80eaa40f53c218c10a6658c3e3c198f3'
-const url = 'http://api.openweathermap.org/data/2.5/weather'
-
-const api_weather = `${url}?q=${location}&appid=${api_key}&units=metric`
+import './styles.css'
 
 const data = {
   temperature: 20,
@@ -19,6 +15,7 @@ const data = {
 
 class WeatherLocation extends Component {
   constructor () {
+    console.log('Primero: constructor')
     super ()
     this.state = {
       city: 'Buenos Aires',
@@ -26,31 +23,22 @@ class WeatherLocation extends Component {
     }
   }
 
-  getWeatherState = weather_data => {
-    return SUN
+  componentDidMount() {
+    console.log('Tercero: componentDidMount')
+    this.handleUpdateClick()
   }
 
-  getData = weather_data => {
-    const { humidity, temp } = weather_data.main
-    const { speed } = weather_data.wind
-    const weatherState = this.getWeatherState(weather_data)
-
-    const data = {
-      humidity,
-      temperature: temp,
-      weatherState,
-      wind: `${speed} m/s`
-    }
-
-    return data
+  componentDidUpdate(prevProps, prevState) {
+    console.log('componentDidUpdate')
   }
 
   handleUpdateClick = () => {
-    fetch(api_weather)
+    fetch(apiWeather)
       .then( resolve => {
         return resolve.json()
       }).then( data => {
-        const newWeather = this.getData(data)
+        console.log('Resultado del handleUpdateClick')
+        const newWeather = transformWeather(data)
         console.log(newWeather)
         this.setState({
           data: newWeather
@@ -58,6 +46,7 @@ class WeatherLocation extends Component {
       })
   }
   render () {
+    console.log('Segundo: render')
     const { city, data } = this.state
     return (
       <div className='weatherLocationCont'>
