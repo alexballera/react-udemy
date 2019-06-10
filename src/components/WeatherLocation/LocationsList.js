@@ -1,11 +1,13 @@
 import React from 'react'
-import WeatherLocation from '.';
+import WeatherLocation from '.'
 
-const LocationsList = () => (
+const strToComponents = cities => (
+  cities.map((city, index) => <WeatherLocation city={city} key={index} />)
+)
+
+const LocationsList = ({ cities }) => (
   <div>
-    <WeatherLocation city='Buenos Aires,ar' />
-    <WeatherLocation city='Caracas,ve' />
-    <WeatherLocation city='Bogota,col' />
+    {strToComponents(cities)}
   </div>
 )
 export default LocationsList
