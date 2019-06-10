@@ -5,14 +5,14 @@ const getTemp = kelvin => {
   return Number(convert(kelvin).from('K').to('C').toFixed(2))
 }
 
-const getWeatherState = weather_data => {
+const getWeatherState = weatherData => {
   return SUN
 }
 
-const transformWeather = weather_data => {
-  const { humidity, temp } = weather_data.main
-  const { speed } = weather_data.wind
-  const weatherState = getWeatherState(weather_data)
+const transformWeather = weatherData => {
+  const { humidity, temp } = weatherData.main
+  const { speed } = weatherData.wind
+  const weatherState = getWeatherState(weatherData)
   const temperature = getTemp(temp)
 
   const data = {
