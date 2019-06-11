@@ -1,13 +1,29 @@
 import React from 'react'
+import { PropTypes } from 'prop-types'
 import WeatherLocation from '.'
 
-const strToComponents = cities => (
-  cities.map((city, index) => <WeatherLocation city={city} key={index} />)
-)
-
-const LocationsList = ({ cities }) => (
-  <div>
+const LocationsList = ({ cities, onSelectedLocation }) => {
+  const handleWeatherLocationClick = city => {
+    console.log('handleWeatherLocationClick')
+    onSelectedLocation(city)
+  }
+  const strToComponents = cities => (
+    cities.map(
+      city =>
+        <WeatherLocation
+          city={city}
+          key={city}
+          onWeatherLocationClick={() => handleWeatherLocationClick(city)}
+        />
+    )
+  )
+  return (<div>
     {strToComponents(cities)}
-  </div>
-)
+  </div>)
+}
+
+LocationsList.propTypes = {
+  cities: PropTypes.array.isRequired,
+  onSelectedLocation: PropTypes.func
+}
 export default LocationsList

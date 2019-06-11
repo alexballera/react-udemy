@@ -9,7 +9,6 @@ import './styles.css'
 
 class WeatherLocation extends Component {
   constructor (props) {
-    console.log('Primero: constructor')
     super (props)
     const { city } = props
     this.state = {
@@ -18,10 +17,9 @@ class WeatherLocation extends Component {
     }
   }
 
-  componentDidMount () {
-    console.log('Tercero: componentDidMount')
-    this.handleUpdateClick()
-  }
+  // componentDidMount () {
+  //   this.handleUpdateClick()
+  // }
 
   componentDidUpdate ( prevProps, prevState) {
     console.log('componentDidUpdate')
@@ -30,22 +28,32 @@ class WeatherLocation extends Component {
   handleUpdateClick = () => {
     const apiWeather = getUrlWeatherByCity(this.state.city)
     fetch(apiWeather)
-      .then( resolve => {
-        return resolve.json()
+      .then( data => {
+        return data.json()
       }).then( data => {
-        console.log('Resultado del handleUpdateClick')
         const newWeather = transformWeather(data)
-        console.log(newWeather)
+        this.setState({
+          data: newWeather
+        })
+      })
+  }
+  componentWillMount = () => {
+    const apiWeather = getUrlWeatherByCity(this.state.city)
+    fetch(apiWeather)
+      .then( data => {
+        return data.json()
+      }).then( data => {
+        const newWeather = transformWeather(data)
         this.setState({
           data: newWeather
         })
       })
   }
   render () {
-    console.log('Segundo: render')
+    const { onWeatherLocationClick } = this.props
     const { city, data } = this.state
     return (
-      <div className='weatherLocationCont'>
+      <div className='weatherLocationCont' onClick={onWeatherLocationClick}>
         {
           data
           ? <span>
@@ -62,7 +70,8 @@ class WeatherLocation extends Component {
 }
 
 WeatherLocation.propTypes = {
-  city: PropTypes.string.isRequired
+  city: PropTypes.string.isRequired,
+  onWeatherLocationClick: PropTypes.func,
 }
 
 export default WeatherLocation
